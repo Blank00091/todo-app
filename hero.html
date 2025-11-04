@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>To-Do App</title>
+  
+</head>
+<body>
+    <style>
+        body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  margin: 0;
+  background: #fff;
+  color: #555;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.left-pane {
+  flex: 0.4;
+  padding: 30px;
+  background: #f7f7f7;
+  border-right: 1px solid #ddd;
+}
+
+.left-pane h2 {
+  margin: 0;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.description {
+  font-size: 13px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  color: #777;
+}
+
+#taskList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.task-item span {
+  flex: 1;
+}
+
+.task-item.completed span {
+  text-decoration: line-through;
+  color: gray;
+}
+
+.checkbox {
+  margin-right: 10px;
+}
+
+.delete-btn {
+  cursor: pointer;
+  color: #888;
+  font-size: 14px;
+  margin-left: 8px;
+}
+
+.delete-btn:hover {
+  color: #d33;
+}
+
+.right-pane {
+  flex: 0.6;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 50px;
+}
+
+#taskInput {
+  width: 80%;
+  font-size: 32px;
+  border: none;
+  outline: none;
+  color: #666;
+  font-weight: 600;
+  border-bottom: 2px solid #ccc;
+}
+
+#taskInput::placeholder {
+  color: #aaa;
+}
+
+    </style>
+  <div class="container">
+    <div class="left-pane">
+      <h2>TASK LIST</h2>
+      <p class="description">
+        Add tasks to your list by typing to the right and pressing enter.
+        You may then view pending tasks below.
+      </p>
+      <ul id="taskList"></ul>
+    </div>
+
+    <div class="right-pane">
+      <form id="taskForm">
+        <input
+          type="text"
+          id="taskInput"
+          placeholder="I need to..."
+          required
+          autofocus
+        />
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById("taskForm");
+const input = document.getElementById("taskInput");
+const taskList = document.getElementById("taskList");
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const text = input.value.trim();
+  if (text === "") return;
+  addTask(text);
+  input.value = "";
+});
+
+function addTask(text) {
+  const li = document.createElement("li");
+  li.className = "task-item";
+
+  const span = document.createElement("span");
+  span.textContent = text;
+
+  const checkbox = document.createElement("input");
+  checkbox.type = "checkbox";
+  checkbox.className = "checkbox";
+
+  const deleteBtn = document.createElement("span");
+  deleteBtn.className = "delete-btn";
+  deleteBtn.textContent = "✖";
+
+  checkbox.addEventListener("change", () => {
+    li.classList.toggle("completed");
+  });
+
+  deleteBtn.addEventListener("click", () => {
+    li.remove();
+  });
+
+  li.append(span, checkbox, deleteBtn);
+  taskList.appendChild(li);
+}
+
+  </script>
+</body>
+</html>
